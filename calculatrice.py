@@ -27,11 +27,7 @@ def input_key(input_value):
     """
     set_message()
         
-    value = input_value    
-    # global calc_input
-    # calc_input += value
-    # calc_input_text.set(calc_input)
-    
+    value = input_value       
     current = e.get()
     e.delete(0,END)
     e.insert(0,str(current) + str(value))
@@ -55,19 +51,13 @@ def input_neg_value(e_value):
         e.delete(0,END)
         e.insert(0,str(neg_value))
         actual_value=e.get()
-    
-    # global calc_input
-    # calc_input += str(neg_value)
-    # calc_input_text.set(calc_input) 
-    
         
-    
 def get_e_value():
     """
     catch the actual value displayed in e 
     It return it to be used in calculator's functions
     """
-    actual_nbr = e.get()#catch the 1st nbr
+    actual_nbr = e.get()
     return actual_nbr
 
     
@@ -81,25 +71,23 @@ def input_operator(operator,actualValue):
     """
     set_message()
     global calc_input
-    if input_sci_value=="pourcent":
+    if operator=="pourcent":
         set_message("how_to_use_pourcent")
-        result = scientific.pourcent(actual_value)
-        calc_input= actual_value + "% /of 1 ="
-    
-    else:
-        #1
-        basic_op.put_in_myOperations(actualValue)
-        #2
         
-        calc_input += e.get()
-        calc_input += operator
-        calc_input_text.set(calc_input)
-        #3
-        e.delete(0,END)#delete the e
-        # #4
-        result = basic_op.make_operation(operator)
-        # if result is not None:
-        #     e.insert(0,result) 
+    #1
+    basic_op.put_in_myOperations(actualValue)
+    #2
+    
+    calc_input += e.get()
+    if operator=="pourcent":
+        operator = "% of "
+    calc_input += operator
+    calc_input_text.set(calc_input)
+    #3
+    e.delete(0,END)#delete the e
+    #4
+    result = basic_op.make_operation(operator)
+    
     
 
 def input_eqal(actualValue):

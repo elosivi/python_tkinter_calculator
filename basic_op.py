@@ -55,7 +55,9 @@ def calc_all_myOperations():
             result = f_nb * s_nb
         elif operator== "/":
             result = f_nb / s_nb
-        # elif operator== "pourcent"
+        elif operator== "% of ":
+            print(myOperations)
+            result = f_nb/100*s_nb
         
         del myOperations[:2]
         myOperations[0]=result
