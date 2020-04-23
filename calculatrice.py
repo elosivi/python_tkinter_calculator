@@ -18,6 +18,8 @@ def set_message(type_mess=""):
         mess = "\n please enter value before \n - \n"
     if type_mess == "how_to_use_pourcent":
         mess="\n pourcent using: \n first enter the %value + % + the basis_value \n like: 50% /of 32 \n - \n"
+    if type_mess == "rounded_result":
+        mess="\n Please note: \n if necessary, result is rounded 5 numbers after comma: \n 0.12345678 -> 0.12346 \n - \n"
     message_text.set(mess)
     
 def input_key(input_value):
@@ -26,7 +28,10 @@ def input_key(input_value):
     display the desired complete nbr in 2 areas : "cal_input_text" and "e"
     """
     set_message()
-        
+    
+    if input_value == "pi":
+        input_value = math.pi
+            
     value = input_value       
     current = e.get()
     e.delete(0,END)
@@ -96,7 +101,7 @@ def input_eqal(actualValue):
     1/catch the value and add it in the array "myOperations"
     2/return the result of operation in a variable names "result" and display it in the 2 areas : "e" and "result_text"
     """
-    set_message()
+    set_message("rounded_result")
     
     global calc_input
     calc_input += e.get()
@@ -138,12 +143,12 @@ def input_clear():
 
 def input_sci_op(input_sci_value, actual_value):
     set_message()
-    value = actual_value
+    value = round(actual_value,5)
     result = scientific.scientific_op(input_sci_value, value)
     if input_sci_value == "racine":
         input_sci_value = "√"
     
-    calc_input = input_sci_value + " (" +actual_value + ") = "
+    calc_input = input_sci_value + " (" +value + ") = "
     calc_input_text.set(calc_input)
     result_text.set(result) 
 
@@ -185,7 +190,7 @@ button_5 =Button(window, text=" 5 ", command=lambda: input_key("5")).grid(row=7,
 button_6 =Button(window, text=" 6 ", command=lambda: input_key("6")).grid(row=7, column=3)
 button_multiply =Button(window, text=" x ", command=lambda: input_operator("*", get_e_value())).grid(row=7, column=4)
 
-button_pi =Button(window, text=" π ", command=lambda: input_sci_op("pi")).grid(row=8, column=0)
+button_pi =Button(window, text=" π ", command=lambda: input_key("pi")).grid(row=8, column=0)
 button_1 =Button(window, text=" 1 ", command=lambda: input_key("1")).grid(row=8, column=1)
 button_2 =Button(window, text=" 2 ", command=lambda: input_key("2")).grid(row=8, column=2)
 button_3 =Button(window, text=" 3 ", command=lambda: input_key("3")).grid(row=8, column=3)

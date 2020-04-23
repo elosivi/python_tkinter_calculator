@@ -59,8 +59,9 @@ def calc_all_myOperations():
             print(myOperations)
             result = f_nb/100*s_nb
         
+        round_result=round(result,5)
         del myOperations[:2]
-        myOperations[0]=result
+        myOperations[0]=round_result
     
     clear_myOperations()  
-    return result
+    return round_result
