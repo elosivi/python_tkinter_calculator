@@ -1,13 +1,18 @@
 from tkinter import *
 import math
 
+
 #import my modules
 import basic_op
 import scientific
  
 # to generate a window with tkinter
 window = Tk()
+# window.geometry('800x500')
+window.configure()
 window.title("Elo's calculator")
+
+
 
 calc_input=""
 
@@ -163,53 +168,53 @@ def input_sci_op(input_sci_value, actual_value):
 
 # create graphic interface:
 #row 0 : to close
-button_close =Button(window, text="Close", command=window.quit).grid(row=0, column=4, columnspan=2)
+button_close =Button(window, text="Close", width=10, height=2, bg="#86ADB1", command=window.quit).grid(row=0, column=5)
 
 #row 1 : usual calculator display
-e = Entry(window, width=20, justify=RIGHT, borderwidth=2)
-e.grid(row=1,column=0,columnspan=6, padx=10, pady=10)
+e = Entry(window,width =50,justify=RIGHT, borderwidth=2, font=25)
+e.grid(row=1,column=0,columnspan=6, padx=20, pady=20)
 
 #row 2 & 3 : special display + row 4 :space
 calc_input_text = StringVar()
-Label(window, textvariable=calc_input_text,justify=RIGHT).grid(row=2, column=0, columnspan=5)
-Label(window, textvariable="=").grid(row=2, column=5)
+Label(window, textvariable=calc_input_text,width=70,bg="#ADADAD", font=20, justify=RIGHT).grid(row=2, column=0, columnspan=6)
+
 
 result_text = StringVar()
-Label(window, textvariable=result_text, justify=RIGHT).grid(row=3, column=0, columnspan=6)
+Label(window, textvariable=result_text, width=70, height=3, font=30 , bg="#656666", fg="#DBFD00", justify=RIGHT).grid(row=3, column=0, columnspan=6)
 
 #rows 5 -> 9: buttons
-button_sin =Button(window, text="sin", command=lambda: input_sci_op("sin", get_e_value())).grid(row=5, column=0)
-button_fraction =Button(window, text="1/x", command=lambda: input_operator("fraction", get_e_value())).grid(row=5, column=1)
-button_pourcent =Button(window, text="%", command=lambda: input_operator("pourcent", get_e_value())).grid(row=5, column=2)
-button_negative =Button(window, text="+/-", command=lambda: input_neg_value(get_e_value())).grid(row=5, column=3)
-button_clear =Button(window, text="A/C", command=lambda: input_clear()).grid(row=5, column=4,columnspan=2 )
+button_sin =Button(window, text="sin", width=5, height=3, bg="#2D4044",fg="white", font="bold", command=lambda: input_sci_op("sin", get_e_value())).grid(row=5, column=0, pady=1, padx=1)
+button_fraction =Button(window, text="1/x", width=5, height=3, bg="#2D4044",fg="white", font="bold",command=lambda: input_operator("fraction", get_e_value())).grid(row=5, column=1, pady=1, padx=1 )
+button_pourcent =Button(window, text="%", width=5, height=3, bg="#2D4044",fg="white", font="bold",command=lambda: input_operator("pourcent", get_e_value())).grid(row=5, column=2, pady=1, padx=1)
+button_negative =Button(window, text="+/-", width=5, height=3, bg="#95BFC3", font="bold",command=lambda: input_neg_value(get_e_value())).grid(row=5, column=3, pady=1, padx=1)
+button_clear =Button(window, text="A/C", width=22, height=3, bg="#232424", fg="#DBFD00", font="bold",command=lambda: input_clear()).grid(row=5, column=4,columnspan=2, pady=1, padx=1 )
 
-button_tan =Button(window, text="tan", command=lambda: input_sci_op("tan", get_e_value())).grid(row=6, column=0)
-button_7 =Button(window, text=" 7 ", command=lambda: input_key("7")).grid(row=6, column=1)
-button_8 =Button(window, text=" 8 ", command=lambda: input_key("8")).grid(row=6, column=2)
-button_9 =Button(window, text=" 9 ", command=lambda: input_key("9")).grid(row=6, column=3)
-button_divide =Button(window, text=" / ", command=lambda: input_operator("/", get_e_value())).grid(row=6, column=4)
-button_eqal =Button(window, text=" = ", command=lambda: input_eqal(get_e_value())).grid(row=6, column=5,rowspan=4 )    
+button_tan =Button(window, text="tan", width=5, height=3, bg="#2D4044",fg="white", font="bold",command=lambda: input_sci_op("tan", get_e_value())).grid(row=6, column=0)
+button_7 =Button(window, text=" 7 ", width=5, height=3, bg="#527F87", font="bold",command=lambda: input_key("7")).grid(row=6, column=1)
+button_8 =Button(window, text=" 8 ", width=5, height=3, bg="#527F87", font="bold",command=lambda: input_key("8")).grid(row=6, column=2)
+button_9 =Button(window, text=" 9 ", width=5, height=3, bg="#527F87", font="bold",command=lambda: input_key("9")).grid(row=6, column=3)
+button_divide =Button(window, text=" / ", width=5, height=3,  bg="#232424", fg="#DBFD00", font="bold",command=lambda: input_operator("/", get_e_value())).grid(row=6, column=4)
+button_eqal =Button(window, text=" = ", width=11, height=15, bg="#DBFD00", font=('Helvetica',12,'bold'), command=lambda: input_eqal(get_e_value())).grid(row=6, column=5,rowspan=4 )    
 
-button_cos =Button(window, text="cos", command=lambda: input_sci_op("cos", get_e_value())).grid(row=7, column=0)
-button_4 =Button(window, text=" 4 ", command=lambda: input_key("4")).grid(row=7, column=1)
-button_5 =Button(window, text=" 5 ", command=lambda: input_key("5")).grid(row=7, column=2)
-button_6 =Button(window, text=" 6 ", command=lambda: input_key("6")).grid(row=7, column=3)
-button_multiply =Button(window, text=" x ", command=lambda: input_operator("*", get_e_value())).grid(row=7, column=4)
+button_cos =Button(window, text="cos", width=5, height=3, bg="#2D4044",fg="white", font="bold",command=lambda: input_sci_op("cos", get_e_value())).grid(row=7, column=0)
+button_4 =Button(window, text=" 4 ", width=5, height=3, bg="#527F87", font="bold",command=lambda: input_key("4")).grid(row=7, column=1)
+button_5 =Button(window, text=" 5 ", width=5, height=3, bg="#527F87", font="bold",command=lambda: input_key("5")).grid(row=7, column=2)
+button_6 =Button(window, text=" 6 ", width=5, height=3, bg="#527F87", font="bold",command=lambda: input_key("6")).grid(row=7, column=3)
+button_multiply =Button(window, text=" x ", width=5, height=3,  bg="#232424", fg="#DBFD00", font="bold",command=lambda: input_operator("*", get_e_value())).grid(row=7, column=4)
 
-button_pi =Button(window, text=" π ", command=lambda: input_key("pi")).grid(row=8, column=0)
-button_1 =Button(window, text=" 1 ", command=lambda: input_key("1")).grid(row=8, column=1)
-button_2 =Button(window, text=" 2 ", command=lambda: input_key("2")).grid(row=8, column=2)
-button_3 =Button(window, text=" 3 ", command=lambda: input_key("3")).grid(row=8, column=3)
-button_substract =Button(window, text=" - ", command=lambda: input_operator("-", get_e_value())).grid(row=8, column=4)
+button_pi =Button(window, text=" π ", width=5, height=3, bg="#2D4044",fg="white", font="bold",command=lambda: input_key("pi")).grid(row=8, column=0)
+button_1 =Button(window, text=" 1 ", width=5, height=3, bg="#527F87", font="bold",command=lambda: input_key("1")).grid(row=8, column=1)
+button_2 =Button(window, text=" 2 ", width=5, height=3, bg="#527F87", font="bold",command=lambda: input_key("2")).grid(row=8, column=2)
+button_3 =Button(window, text=" 3 ", width=5, height=3, bg="#527F87", font="bold",command=lambda: input_key("3")).grid(row=8, column=3)
+button_substract =Button(window, text=" - ", width=5, height=3,  bg="#232424", fg="#DBFD00", font="bold",command=lambda: input_operator("-", get_e_value())).grid(row=8, column=4)
 
-button_racine =Button(window, text=" √ ", command=lambda: input_sci_op("racine", get_e_value())).grid(row=9, column=0)
-button_0 =Button(window, text=" 0 ", command=lambda: input_key("0")).grid(row=9, column=1, columnspan=2)
-button_virg =Button(window, text=" . ", command=lambda: input_key(".")).grid(row=9, column=3)
-button_add =Button(window, text=" + ", command=lambda: input_operator("+", get_e_value())).grid(row=9, column=4)
+button_racine =Button(window, text=" √ ", width=5, height=3, bg="#2D4044",fg="white", font="bold",command=lambda: input_sci_op("racine", get_e_value())).grid(row=9, column=0)
+button_0 =Button(window, text=" 0 ", width=15, height=3, bg="#527F87", font="bold",command=lambda: input_key("0")).grid(row=9, column=1, columnspan=2)
+button_virg =Button(window, text=" . ", width=5, height=3,bg="#95BFC3", font="bold",command=lambda: input_key(".")).grid(row=9, column=3)
+button_add =Button(window, text=" + ", width=5, height=3,  bg="#232424", fg="#DBFD00", font="bold",command=lambda: input_operator("+", get_e_value())).grid(row=9, column=4)
 
 message_text = StringVar()
-Label(window, textvariable=message_text, justify=CENTER).grid(row=10, column=0, columnspan=6)
+Label(window, textvariable=message_text, font=('Helvetica',12,'bold'),fg="#527F87", justify=CENTER).grid(row=10, column=0, columnspan=6)
 
 
                                      
