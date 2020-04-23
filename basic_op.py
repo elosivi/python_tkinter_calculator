@@ -23,7 +23,6 @@ def make_operation(inputOperator):
     """
     
     myOperations.append(inputOperator)
-    print("add op")#test console
     print(myOperations)#test console
     
     if len(myOperations)>3:
@@ -59,8 +58,6 @@ def calc_all_myOperations():
         
         del myOperations[:2]
         myOperations[0]=result
-        # print("new")
-        # print(myOperations)
     
     clear_myOperations()  
     return result

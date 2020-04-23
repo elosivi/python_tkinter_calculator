@@ -1,35 +1,43 @@
 from tkinter import *
 import math
 
+#import my modules
 import basic_op
 import scientific
-
-
  
 # to generate a window with tkinter
-
 window = Tk()
 window.title("Elo's calculator")
 
 calc_input=""
 
-#fonctions display
-def input_key(value):
+def input_key(input_value):
     """
     function input_key catch the input value and concatenate simples numbers to
-    display the desired complete nbr in 2 aeras.
+    display the desired complete nbr in 2 areas : "cal_input_text" and "e"
     """
+    value = input_value    
     global calc_input
     calc_input += value
-    calc_input_text.set(calc_input)#print on a secondary display
+    calc_input_text.set(calc_input)
     
     current = e.get()
     e.delete(0,END)
     e.insert(0,str(current) + str(value))
     actual_value=e.get()
+    
 
-  
-
+def input_neg_value(e_value):
+    """
+    pass the actual value to the negative 
+    and display it in the 2 same areas as input_key
+    """
+    current_value= e.get()
+    neg_value = float(current_value)*-1
+    e.delete(0,END)
+    e.insert(0,str(neg_value))
+    actual_value=e.get()
+     
 def get_e_value():
     """
     catch the actual value displayed in e 
@@ -93,6 +101,9 @@ def input_clear():
     result_text.set(calc_input) 
     e.delete(0,END)
     
+    global neg_value
+    neg_value= False
+    
     basic_op.clear_myOperations()
 
 
@@ -116,7 +127,7 @@ Label(window, textvariable=result_text, justify=RIGHT).grid(row=3, column=0, col
 button_sin =Button(window, text="sin", command=lambda: scientific.input_sci_op()).grid(row=5, column=0)
 button_fraction =Button(window, text="1/x", command=lambda: scientific.input_sci_op()).grid(row=5, column=1)
 button_purcent =Button(window, text="%", command=lambda: scientific.input_sci_op()).grid(row=5, column=2)
-button_negative =Button(window, text="+/-", command=lambda: basic_op.negative_nbr()).grid(row=5, column=3)
+button_negative =Button(window, text="+/-", command=lambda: input_neg_value(get_e_value())).grid(row=5, column=3)
 button_clear =Button(window, text="A/C", command=lambda: input_clear()).grid(row=5, column=4,columnspan=2 )
 
 button_tan =Button(window, text="tan", command=lambda: scientific.input_sci_op()).grid(row=6, column=0)
@@ -132,13 +143,13 @@ button_5 =Button(window, text=" 5 ", command=lambda: input_key("5")).grid(row=7,
 button_6 =Button(window, text=" 6 ", command=lambda: input_key("6")).grid(row=7, column=3)
 button_multiply =Button(window, text=" x ", command=lambda: input_operator("*", get_e_value())).grid(row=7, column=4)
 
-button_pi =Button(window, text="pi", command=lambda: scientific.input_sci_op()).grid(row=8, column=0)
+button_pi =Button(window, text=" π ", command=lambda: scientific.input_sci_op()).grid(row=8, column=0)
 button_1 =Button(window, text=" 1 ", command=lambda: input_key("1")).grid(row=8, column=1)
 button_2 =Button(window, text=" 2 ", command=lambda: input_key("2")).grid(row=8, column=2)
 button_3 =Button(window, text=" 3 ", command=lambda: input_key("3")).grid(row=8, column=3)
 button_substract =Button(window, text=" - ", command=lambda: input_operator("-", get_e_value())).grid(row=8, column=4)
 
-button_racine =Button(window, text="rac", command=lambda: scientific.input_sci_op()).grid(row=9, column=0)
+button_racine =Button(window, text=" √ ", command=lambda: scientific.input_sci_op()).grid(row=9, column=0)
 button_0 =Button(window, text=" 0 ", command=lambda: input_key("0")).grid(row=9, column=1, columnspan=2)
 button_virg =Button(window, text=" . ", command=lambda: input_key(".")).grid(row=9, column=3)
 button_add =Button(window, text=" + ", command=lambda: input_operator("+", get_e_value())).grid(row=9, column=4)
