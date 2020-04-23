@@ -1,22 +1,27 @@
+"""
+This file manage the view, and display user's "click"
+See import my modules to consult files wich manage mathematicals operations
+"""
+
 from tkinter import *
 import math
 
-
 #import my modules
-import basic_op
+import basic_opcd pack(fmt, v1, v2, ...)
 import scientific
  
 # to generate a window with tkinter
 window = Tk()
-# window.geometry('800x500')
 window.configure()
 window.title("Elo's calculator")
 
-
-
 calc_input=""
 
+
 def set_message(type_mess=""):
+    """
+    This function manage all messages needed to send to the user for a better utilisation of the app
+    """
     if type_mess=="":
         mess=""
     if type_mess == "negative_error" :
@@ -29,10 +34,12 @@ def set_message(type_mess=""):
         mess="\n fraction method: enter first your value, then 1/x button \n "
     message_text.set(mess)
     
+    
 def input_key(input_value):
     """
-    function input_key catch the input value and concatenate simples numbers to
-    display the desired complete nbr in 2 areas : "cal_input_text" and "e"
+    This function concatene the value
+    1/set the message to null if there is one 
+    2/this function catch the input value and concatenate simples numbers to display the desired complete nbr in "e"
     """
     set_message()
     
@@ -48,65 +55,65 @@ def input_key(input_value):
 
 def input_neg_value(e_value):
     """
-    pass the actual value to the negative 
-    and display it in the 2 same areas as input_key
+    This function manage the button "+/-"
+    1/ if there is not value in "e", send a message about how to use it
+    2/ if there is a value entered yet: pass the actual value to the negative and display it in "e"
     """
-    print(e_value)
-    print(type(e_value))
     if e_value == "":
         set_message("negative_error")
     
     else:
         current_value= e.get()
         neg_value = float(current_value)*-1
-        
         e.delete(0,END)
         e.insert(0,str(neg_value))
         actual_value=e.get()
         
+        
 def get_e_value():
     """
-    catch the actual value displayed in e 
+    This function catch the actual value displayed in "e" 
     It return it to be used in calculator's functions
     """
     actual_nbr = e.get()
     return actual_nbr
 
-    
+
 def input_operator(operator,actualValue):
     """
-    catch the value of operator entered + actual value in e
-      1/ add actaul value in the array myOperations calling the function : put_in_myOperations(actualValue) in basic_op.py
-      2/ print operator in the second display: calc_input
-      3/delete the e display (usual attitude of a calculator)
-      4/ send the actual value to the function make_operation in basic_op.py and return the result in cas of user make this = 2+1+, to display 3 as he enter "="
+    This function catch the value of operator entered + actual value in "e"
+      1/ set the message to null if there is one 
+      2/ send a message if pourcent is using to help the user
+      3/ add actual value in the array myOperations calling the function : put_in_myOperations(actualValue) in basic_op.py
+      4/ print operator in the display area name "calc_input_text"
+      5/ delete the e display (usual attitude of a calculator)
+      6/ send the actual value to the function make_operation in basic_op.py 
     """
     set_message()
+    
     global calc_input
     if operator=="pourcent":
         set_message("how_to_use_pourcent")
        
-    #1
     basic_op.put_in_myOperations(actualValue)
-    #2
     
     calc_input += e.get()
     if operator=="pourcent":
         operator = "% of "
     calc_input += operator
     calc_input_text.set(calc_input)
-    #3
-    e.delete(0,END)#delete the e
-    #4
-    result = basic_op.make_operation(operator)
+    
+    e.delete(0,END)
+    
+    basic_op.make_operation(operator)
     
     
-
 def input_eqal(actualValue):
     """
-    return the result of operation
-    1/catch the value and add it in the array "myOperations"
-    2/return the result of operation in a variable names "result" and display it in the 2 areas : "e" and "result_text"
+    This function return the result of operation
+    1/set the message to inform the user about the aqal function round the result 
+    2/catch the value and add it in the array "myOperations"
+    3/return the result of operation in a variable names "result" and display it in the areas named : "e" and "result_text"
     """
     set_message("rounded_result")
     
@@ -122,17 +129,17 @@ def input_eqal(actualValue):
     calc_result=str(result)
     calc_input += ("="+ calc_result + "/ " )
     calc_input_text.set(calc_input)
-    
     e.insert(0,result)
     e.delete(0,END)
     e.insert(0, result)
     
-    
 
 def input_clear():
     """
-    to clear all values displayed in the 2 display areas.
-    use function clear_myOperations in basic_op.py to empty the array 'myOperations'
+    This function clear all operations and data entry 
+    1/ set the message to null if there is one 
+    2/ clear all the areas wich return values, results and operations.
+    3/ use function clear_myOperations in basic_op.py to empty the array 'myOperations'
     """
     set_message()
     
@@ -141,14 +148,17 @@ def input_clear():
     calc_input_text.set(calc_input)
     result_text.set(calc_input) 
     e.delete(0,END)
-    
-    global neg_value
-    neg_value= False
-    
     basic_op.clear_myOperations()
 
 
 def input_sci_op(input_sci_value, actual_value):
+    """
+    This function manage scientific operations as tan, cos, sin, racine, fraction
+    1/ set the message to null if there is one 
+    2/ set a message to help user make a fraction
+    3/ send the actual value in "e" to the function scientific_op() in scientific.py and return result
+    4/ manage the diplay_view, changing str like "racine" by symbol √, or "franction" by 1/ before display the complete operation and the result in concerning areas
+    """
     set_message()
     
     if input_sci_value == "fraction":
@@ -156,6 +166,7 @@ def input_sci_op(input_sci_value, actual_value):
         
     value = actual_value
     result = scientific.scientific_op(input_sci_value, value)
+    
     if input_sci_value == "racine":
         input_sci_value = "√"
     elif input_sci_value == "fraction":
@@ -166,11 +177,17 @@ def input_sci_op(input_sci_value, actual_value):
 
 
 
-# create graphic interface:
+"""
+Here under script to create the graphic interface:
+all common buttons in a calculator
+areas to return operations andresults
+front-end : modif view with width,height,cbackground,font,etc... 
+
+"""
 #row 0 : to close
 button_close =Button(window, text="Close", width=10, height=2, bg="#86ADB1", command=window.quit).grid(row=0, column=5)
 
-#row 1 : usual calculator display
+#row 1 : usual calculator display, here called "e"
 e = Entry(window,width =50,justify=RIGHT, borderwidth=2, font=25)
 e.grid(row=1,column=0,columnspan=6, padx=20, pady=20)
 

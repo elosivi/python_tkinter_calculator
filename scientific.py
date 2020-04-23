@@ -3,6 +3,7 @@ import math
 pourcent_array= []
 
 def scientific_op(sci_value, e_value):
+    #This function manage the scientific operations and return the value to calculatrice.py
     value = float(e_value)
     if sci_value == "tan":
         result = math.tan(value)
