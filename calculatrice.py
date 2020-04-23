@@ -10,28 +10,24 @@ import basic_op
 window = Tk()
 window.title("Elo's calculator")
 
-#array/list wich keep in memory all values and operators entered by user.
-
-
-nb_input=""
 calc_input=""
-# is_first= True
 
 #fonctions display
 def input_key(value):
     """
-    function input_key catch the input value as a concatenate simples numbers and return the desired complete nbr
-    current catch the actual value in e
+    function input_key catch the input value and concatenate simples numbers to
+    display the desired complete nbr in 2 aeras.
     """
-    
     global calc_input
     calc_input += value
-    
     calc_input_text.set(calc_input)#print on a secondary display
-   
+    
     current = e.get()
     e.delete(0,END)
     e.insert(0,str(current) + str(value))
+    actual_value=e.get()
+
+  
 
 def get_e_value():
     """
@@ -41,35 +37,36 @@ def get_e_value():
     actual_nbr = e.get()#catch the 1st nbr
     return actual_nbr
 
-def clear_e_display():
-    e.delete(0,END)#clear the first display
     
 def input_operator(operator,actualValue):
     """
     catch the value of operator entered + actual value in e
-      1/ print operator in the second display: calc_input
-      2/ send the actual value + operator in basic_op.make_operation 
-    print it in the second display
-    delete the e display (usual attitude of a calculator)
+      1/ add actaul value in the array myOperations calling the function : put_in_myOperations(actualValue) in basic_op.py
+      2/ print operator in the second display: calc_input
+      3/delete the e display (usual attitude of a calculator)
+      4/ send the actual value to the function make_operation in basic_op.py and return the result in cas of user make this = 2+1+, to display 3 as he enter "="
     """
-    
-    # global is_first
+    #1
+    basic_op.put_in_myOperations(actualValue)
+    #2
     global calc_input
     calc_input += operator
     calc_input_text.set(calc_input)
-    
+    #3
     e.delete(0,END)#delete the e
-    basic_op.make_operation(operator,actualValue)
+    #4
+    result = basic_op.make_operation(operator)
     
-    # if is_first==True:
-    #     is_first=False
-    # else:
-    #     new_value= basic_op.result(actualValue)
-    #     e.insert(0, new_value)
-   
 
 def input_eqal(actualValue):
-    result = basic_op.result(actualValue)
+    """
+    return the result of operation
+    1/catch the value and add it in the array "myOperations"
+    2/return the result of operation in a variable names "result" and display it in the 2 areas : "e" and "result_text"
+    """
+    basic_op.put_in_myOperations(actualValue)
+    
+    result = basic_op.result()
     e.insert(0,result)
     e.delete(0,END)
     global calc_input #to print on a secondary display, to keep?
@@ -81,15 +78,16 @@ def input_eqal(actualValue):
 def input_clear():
     """
     to clear all values displayed in the 2 display areas.
+    use function clear_myOperations in basic_op.py to empty the array 'myOperations'
     """
     global calc_input
     calc_input = ""
-    calc_input_text.set(calc_input) #clear the secondary display
-    result_text.set(calc_input) #clear the secondary display
-    e.delete(0,END)#clear the first display
-    # global is_first
-    # is_first=True
-    myOperations=[]
+    calc_input_text.set(calc_input)
+    result_text.set(calc_input) 
+    e.delete(0,END)
+    
+    basic_op.clear_myOperations()
+
 
 # create graphic interface:
 e = Entry(window, width=20, borderwidth=2)
@@ -111,7 +109,7 @@ button_substract =Button(window, text=" - ", command=lambda: input_operator("-",
 button_multiply =Button(window, text=" x ", command=lambda: input_operator("*", get_e_value())).grid(row=5, column=3)
 button_divide =Button(window, text=" / ", command=lambda: input_operator("/", get_e_value())).grid(row=6, column=3)
 
-button_aqual =Button(window, text=" = ", command=lambda: input_eqal(get_e_value())).grid(row=2, column=3)                                         
+button_eqal =Button(window, text=" = ", command=lambda: input_eqal(get_e_value())).grid(row=2, column=3)                                         
 button_clear =Button(window, text=" clear ", command=lambda: input_clear()).grid(row=6, column=1,columnspan=2 )
 
 calc_input_text = StringVar()
@@ -121,7 +119,5 @@ result_text = StringVar()
 Label(window, textvariable=result_text).grid(row=2, column=0, columnspan=3)
 
 #end of graphic interface
-
-
 
 window.mainloop()
