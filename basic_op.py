@@ -27,40 +27,44 @@ def make_operation(inputOperator):
     
     myOperations.append(inputOperator)
     print(myOperations)#test console
-    last_result = 0
-    return last_result
     
-def result():
-    """
-    1/last value is append to the list myOperations
-    2/catch the 2 last values (first ans second) and the last operator in the array/list
-    3/calculate the equation between first_nbr et second_nbr according to the operator
-    4/return the result
-    """
-    result = 0
+    if len(myOperations)>3:
+        last_result=result()
+        return last_result
+    else:
+        return None
     
-    #1
-    last_key=(len(myOperations)-1)
-    s_nb = int(myOperations[last_key])
-    
-    #2
-    first_nbr_key = last_key-2
-    f_nb = int(myOperations[first_nbr_key])
-    
-    
-    operator_key = last_key-1
-    operator=myOperations[operator_key]
-    
-    #3
-    if operator == "+": 
-        result = f_nb + s_nb
-    elif operator== "-":
-        result = f_nb - s_nb
-    elif operator== "*":
-        result = f_nb * s_nb
-    elif operator== "/":
-        result = f_nb / s_nb
-    #4
-    return result
 
+def calc_all_myOperations():
+    """
+    this function browse the array myOperations to return the result
+    of all the operations 2 by 2 from the first to the last, entered
+    before click on "="
+    when it make the fist operation with the 3 first values (2 values + 1 operator)
+    it delete 2 value and replace the first one by the result
+    while it's not empty it continue to make the other operations.
+    Carefull it don't manage priorities between operators (% and * before + and -)
+    """
+    while len(myOperations)>1:
+        f_nb = float(myOperations[0])
+        operator = myOperations[1]
+        s_nb = float(myOperations[2])
+        
+        if operator == "+": 
+            result = f_nb + s_nb
+        elif operator== "-":
+            result = f_nb - s_nb
+        elif operator== "*":
+            result = f_nb * s_nb
+        elif operator== "/":
+            result = f_nb / s_nb
+        
+        print(result)
+        del myOperations[:2]
+        myOperations[0]=result
+        print("new")
+        print(myOperations)
     
+    clear_myOperations()  
+    return result
+        

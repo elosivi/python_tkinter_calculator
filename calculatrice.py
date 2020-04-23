@@ -56,6 +56,8 @@ def input_operator(operator,actualValue):
     e.delete(0,END)#delete the e
     #4
     result = basic_op.make_operation(operator)
+    if result is not None:
+        e.insert(0,result) 
     
 
 def input_eqal(actualValue):
@@ -65,14 +67,18 @@ def input_eqal(actualValue):
     2/return the result of operation in a variable names "result" and display it in the 2 areas : "e" and "result_text"
     """
     basic_op.put_in_myOperations(actualValue)
+        
+    result=basic_op.calc_all_myOperations()
+    result_text.set(result)
     
-    result = basic_op.result()
+    global calc_input
+    calc_input=str(result)
+    calc_input_text.set(calc_input)
+    
     e.insert(0,result)
     e.delete(0,END)
-    global calc_input #to print on a secondary display, to keep?
-    calc_input += "="+str(result)#to print on a secondary display, to keep?
-    result_text.set(result)#to print on a secondary display, to keep?
     e.insert(0, result)
+    
     
 
 def input_clear():
