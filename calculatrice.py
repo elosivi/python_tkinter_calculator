@@ -11,15 +11,26 @@ window.title("Elo's calculator")
 
 calc_input=""
 
+def set_message(type_mess=""):
+    if type_mess=="":
+        mess=""
+    if type_mess == "negative_error" :
+        mess = "\n please enter value before \n - \n"
+    if type_mess == "how_to_use_pourcent":
+        mess="\n pourcent using: \n first enter the %value + % + the basis_value \n like: 50% /of 32 \n - \n"
+    message_text.set(mess)
+    
 def input_key(input_value):
     """
     function input_key catch the input value and concatenate simples numbers to
     display the desired complete nbr in 2 areas : "cal_input_text" and "e"
     """
+    set_message()
+        
     value = input_value    
-    global calc_input
-    calc_input += value
-    calc_input_text.set(calc_input)
+    # global calc_input
+    # calc_input += value
+    # calc_input_text.set(calc_input)
     
     current = e.get()
     e.delete(0,END)
@@ -32,12 +43,25 @@ def input_neg_value(e_value):
     pass the actual value to the negative 
     and display it in the 2 same areas as input_key
     """
-    current_value= e.get()
-    neg_value = float(current_value)*-1
-    e.delete(0,END)
-    e.insert(0,str(neg_value))
-    actual_value=e.get()
-     
+    print(e_value)
+    print(type(e_value))
+    if e_value == "":
+        set_message("negative_error")
+    
+    else:
+        current_value= e.get()
+        neg_value = float(current_value)*-1
+        
+        e.delete(0,END)
+        e.insert(0,str(neg_value))
+        actual_value=e.get()
+    
+    # global calc_input
+    # calc_input += str(neg_value)
+    # calc_input_text.set(calc_input) 
+    
+        
+    
 def get_e_value():
     """
     catch the actual value displayed in e 
@@ -55,18 +79,27 @@ def input_operator(operator,actualValue):
       3/delete the e display (usual attitude of a calculator)
       4/ send the actual value to the function make_operation in basic_op.py and return the result in cas of user make this = 2+1+, to display 3 as he enter "="
     """
-    #1
-    basic_op.put_in_myOperations(actualValue)
-    #2
+    set_message()
     global calc_input
-    calc_input += operator
-    calc_input_text.set(calc_input)
-    #3
-    e.delete(0,END)#delete the e
-    # #4
-    result = basic_op.make_operation(operator)
-    # if result is not None:
-    #     e.insert(0,result) 
+    if input_sci_value=="pourcent":
+        set_message("how_to_use_pourcent")
+        result = scientific.pourcent(actual_value)
+        calc_input= actual_value + "% /of 1 ="
+    
+    else:
+        #1
+        basic_op.put_in_myOperations(actualValue)
+        #2
+        
+        calc_input += e.get()
+        calc_input += operator
+        calc_input_text.set(calc_input)
+        #3
+        e.delete(0,END)#delete the e
+        # #4
+        result = basic_op.make_operation(operator)
+        # if result is not None:
+        #     e.insert(0,result) 
     
 
 def input_eqal(actualValue):
@@ -75,13 +108,19 @@ def input_eqal(actualValue):
     1/catch the value and add it in the array "myOperations"
     2/return the result of operation in a variable names "result" and display it in the 2 areas : "e" and "result_text"
     """
+    set_message()
+    
+    global calc_input
+    calc_input += e.get()
+    calc_input_text.set(calc_input)
+    
     basic_op.put_in_myOperations(actualValue)
         
     result=basic_op.calc_all_myOperations()
     result_text.set(result)
     
-    global calc_input
-    calc_input=str(result)
+    calc_result=str(result)
+    calc_input += ("="+ calc_result + "/ " )
     calc_input_text.set(calc_input)
     
     e.insert(0,result)
@@ -95,6 +134,8 @@ def input_clear():
     to clear all values displayed in the 2 display areas.
     use function clear_myOperations in basic_op.py to empty the array 'myOperations'
     """
+    set_message()
+    
     global calc_input
     calc_input = ""
     calc_input_text.set(calc_input)
@@ -105,6 +146,19 @@ def input_clear():
     neg_value= False
     
     basic_op.clear_myOperations()
+
+
+def input_sci_op(input_sci_value, actual_value):
+    set_message()
+    value = actual_value
+    result = scientific.scientific_op(input_sci_value, value)
+    if input_sci_value == "racine":
+        input_sci_value = "√"
+    
+    calc_input = input_sci_value + " (" +actual_value + ") = "
+    calc_input_text.set(calc_input)
+    result_text.set(result) 
+
 
 
 # create graphic interface:
@@ -124,37 +178,38 @@ result_text = StringVar()
 Label(window, textvariable=result_text, justify=RIGHT).grid(row=3, column=0, columnspan=6)
 
 #rows 5 -> 9: buttons
-button_sin =Button(window, text="sin", command=lambda: scientific.input_sci_op()).grid(row=5, column=0)
-button_fraction =Button(window, text="1/x", command=lambda: scientific.input_sci_op()).grid(row=5, column=1)
-button_purcent =Button(window, text="%", command=lambda: scientific.input_sci_op()).grid(row=5, column=2)
+button_sin =Button(window, text="sin", command=lambda: input_sci_op("sin", get_e_value())).grid(row=5, column=0)
+button_fraction =Button(window, text="1/x", command=lambda: input_sci_op("fraction", get_e_value())).grid(row=5, column=1)
+button_pourcent =Button(window, text="%", command=lambda: input_operator("pourcent", get_e_value())).grid(row=5, column=2)
 button_negative =Button(window, text="+/-", command=lambda: input_neg_value(get_e_value())).grid(row=5, column=3)
 button_clear =Button(window, text="A/C", command=lambda: input_clear()).grid(row=5, column=4,columnspan=2 )
 
-button_tan =Button(window, text="tan", command=lambda: scientific.input_sci_op()).grid(row=6, column=0)
+button_tan =Button(window, text="tan", command=lambda: input_sci_op("tan", get_e_value())).grid(row=6, column=0)
 button_7 =Button(window, text=" 7 ", command=lambda: input_key("7")).grid(row=6, column=1)
 button_8 =Button(window, text=" 8 ", command=lambda: input_key("8")).grid(row=6, column=2)
 button_9 =Button(window, text=" 9 ", command=lambda: input_key("9")).grid(row=6, column=3)
 button_divide =Button(window, text=" / ", command=lambda: input_operator("/", get_e_value())).grid(row=6, column=4)
 button_eqal =Button(window, text=" = ", command=lambda: input_eqal(get_e_value())).grid(row=6, column=5,rowspan=4 )    
 
-button_cos =Button(window, text="cos", command=lambda: scientific.input_sci_op()).grid(row=7, column=0)
+button_cos =Button(window, text="cos", command=lambda: input_sci_op("cos", get_e_value())).grid(row=7, column=0)
 button_4 =Button(window, text=" 4 ", command=lambda: input_key("4")).grid(row=7, column=1)
 button_5 =Button(window, text=" 5 ", command=lambda: input_key("5")).grid(row=7, column=2)
 button_6 =Button(window, text=" 6 ", command=lambda: input_key("6")).grid(row=7, column=3)
 button_multiply =Button(window, text=" x ", command=lambda: input_operator("*", get_e_value())).grid(row=7, column=4)
 
-button_pi =Button(window, text=" π ", command=lambda: scientific.input_sci_op()).grid(row=8, column=0)
+button_pi =Button(window, text=" π ", command=lambda: input_sci_op("pi")).grid(row=8, column=0)
 button_1 =Button(window, text=" 1 ", command=lambda: input_key("1")).grid(row=8, column=1)
 button_2 =Button(window, text=" 2 ", command=lambda: input_key("2")).grid(row=8, column=2)
 button_3 =Button(window, text=" 3 ", command=lambda: input_key("3")).grid(row=8, column=3)
 button_substract =Button(window, text=" - ", command=lambda: input_operator("-", get_e_value())).grid(row=8, column=4)
 
-button_racine =Button(window, text=" √ ", command=lambda: scientific.input_sci_op()).grid(row=9, column=0)
+button_racine =Button(window, text=" √ ", command=lambda: input_sci_op("racine", get_e_value())).grid(row=9, column=0)
 button_0 =Button(window, text=" 0 ", command=lambda: input_key("0")).grid(row=9, column=1, columnspan=2)
 button_virg =Button(window, text=" . ", command=lambda: input_key(".")).grid(row=9, column=3)
 button_add =Button(window, text=" + ", command=lambda: input_operator("+", get_e_value())).grid(row=9, column=4)
 
-
+message_text = StringVar()
+Label(window, textvariable=message_text, justify=CENTER).grid(row=10, column=0, columnspan=6)
 
 
                                      
