@@ -18,18 +18,16 @@ def clear_myOperations():
 
 def make_operation(inputOperator):
     """
-    When user entered an operator the function input_operator catch the actual value as first value +  the input operator
-    it take them in global
-    calc_input += inputOperator is a string witch return numbers and operators
-    If user use a second operator I wan the opration make it anyway. 
-    ex: 2+2=4 but if user make 2+2+2, I want e display 4 after the 1st add and 2 add to 4, so = 6 and not 4.
+    this function add the operator in the array "myOperations"
+    if it's not the first operator entered it return the result
     """
     
     myOperations.append(inputOperator)
+    print("add op")#test console
     print(myOperations)#test console
     
     if len(myOperations)>3:
-        last_result=result()
+        last_result=calc_all_myOperations()
         return last_result
     else:
         return None
@@ -59,11 +57,10 @@ def calc_all_myOperations():
         elif operator== "/":
             result = f_nb / s_nb
         
-        print(result)
         del myOperations[:2]
         myOperations[0]=result
-        print("new")
-        print(myOperations)
+        # print("new")
+        # print(myOperations)
     
     clear_myOperations()  
     return result
