@@ -20,6 +20,8 @@ def set_message(type_mess=""):
         mess="\n pourcent using: \n first enter the %value + % + the basis_value \n like: 50% /of 32 \n - \n"
     if type_mess == "rounded_result":
         mess="\n Please note: \n if necessary, result is rounded 5 numbers after comma: \n 0.12345678 -> 0.12346 \n - \n"
+    if type_mess == "fraction_method":
+        mess="\n fraction method: enter first your value, then 1/x button \n "
     message_text.set(mess)
     
 def input_key(input_value):
@@ -78,7 +80,7 @@ def input_operator(operator,actualValue):
     global calc_input
     if operator=="pourcent":
         set_message("how_to_use_pourcent")
-        
+       
     #1
     basic_op.put_in_myOperations(actualValue)
     #2
@@ -143,11 +145,16 @@ def input_clear():
 
 def input_sci_op(input_sci_value, actual_value):
     set_message()
-    value = round(actual_value,5)
+    
+    if input_sci_value == "fraction":
+        set_message("fraction_method")
+        
+    value = actual_value
     result = scientific.scientific_op(input_sci_value, value)
     if input_sci_value == "racine":
         input_sci_value = "√"
-    
+    elif input_sci_value == "fraction":
+        input_sci_value = "1/"
     calc_input = input_sci_value + " (" +value + ") = "
     calc_input_text.set(calc_input)
     result_text.set(result) 
@@ -172,7 +179,7 @@ Label(window, textvariable=result_text, justify=RIGHT).grid(row=3, column=0, col
 
 #rows 5 -> 9: buttons
 button_sin =Button(window, text="sin", command=lambda: input_sci_op("sin", get_e_value())).grid(row=5, column=0)
-button_fraction =Button(window, text="1/x", command=lambda: input_sci_op("fraction", get_e_value())).grid(row=5, column=1)
+button_fraction =Button(window, text="1/x", command=lambda: input_operator("fraction", get_e_value())).grid(row=5, column=1)
 button_pourcent =Button(window, text="%", command=lambda: input_operator("pourcent", get_e_value())).grid(row=5, column=2)
 button_negative =Button(window, text="+/-", command=lambda: input_neg_value(get_e_value())).grid(row=5, column=3)
 button_clear =Button(window, text="A/C", command=lambda: input_clear()).grid(row=5, column=4,columnspan=2 )

@@ -12,6 +12,9 @@ def scientific_op(sci_value, e_value):
         result = math.sin(value)
     if sci_value == "racine":
         result = math.sqrt(value)
+    if sci_value =="fraction":
+        result = (1/value)
+        print(result)
     
     print(result)#test console    
     return result

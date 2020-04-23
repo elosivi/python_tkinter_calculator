@@ -24,13 +24,6 @@ def make_operation(inputOperator):
     
     myOperations.append(inputOperator)
     print(myOperations)#test console
-    
-    if len(myOperations)>3:
-        last_result=calc_all_myOperations()
-        return last_result
-    else:
-        return None
-    
 
 def calc_all_myOperations():
     """
