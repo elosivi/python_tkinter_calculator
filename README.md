@@ -18,7 +18,7 @@ etc...
 
 you can also launch some usual scientific functions (tan, sin, cos, . . . ) with bases 10 only here
 
-![screenshot](Screenshot_calculator.png) 
+![screenshot](Screenshot2.png) 
 
 
 **HOW TO USE IT**
